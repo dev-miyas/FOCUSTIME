@@ -34,8 +34,10 @@ export default function App() {
         <TextInput
           placeholder="what would you like to focus on...."
           mode={"outlined"}
+          value={task}
           label="focus"
           style={styles.InputText}
+          onChangeText={(text) => setTask(text)}
         />
 
         <TouchableOpacity
@@ -99,6 +101,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#bbb3cc",
+    backgroundColor: "#dbd5e7",
   },
 });
