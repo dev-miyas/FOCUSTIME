@@ -20,7 +20,7 @@ const [selectedTime,setSelectedTime]=useState();
 
       <View
         style={{
-          height: 10,
+          height: 11,
           width: "100%",
           backgroundColor: "#241b9a",
           marginTop: 20,        }}
