@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const [selectTime, setSelectTime] = useState(null);
+const [selectedTime,setSelectedTime]=useState();
   const times = [600, 900, 1200];
   const timeFormatter = (time) => {
     const minutes = Math.floor(time / 60);
@@ -13,7 +14,7 @@ export default function FocusTime({ focusTask, onBack }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.timeText}>{timeFormatter(times[0])}</Text>
+      <Text style={styles.timeText}>{selectedTime ? timeFormatter(selectedTime) : "0:00"}</Text>
       <Text style={styles.focusText}>Focusing on</Text>
       <Text style={styles.focusTask}>{focusTask}</Text>
 
@@ -22,15 +23,14 @@ export default function FocusTime({ focusTask, onBack }) {
           height: 10,
           width: "100%",
           backgroundColor: "#241b9a",
-          marginTop: 20,
-        }}
+          marginTop: 20,        }}
       />
       <View style={styles.timeContainer}>
         {times.map((time, index) => (
           <TouchableOpacity
             key={index}
             style={styles.timeButton}
-            onPress={() => setSelectTime(time)}
+            onPress={() => setSelectedTime(time)}
           >
             <Text style={styles.timeButtonText}>{timeFormatter(time)}</Text>
           </TouchableOpacity>
