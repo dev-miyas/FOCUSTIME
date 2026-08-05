@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity,Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
+import { StatusBar } from "expo-status-bar";
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const [selectTime, setSelectTime] = useState(null);
@@ -36,6 +37,7 @@ export default function FocusTime({ focusTask, onBack }) {
 }, [isRunning, timeLeft]);
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="dark" />
       <Text style={styles.timeText}>{timeFormatter(timeLeft)}</Text>
       <Text style={styles.focusText}>Focusing on</Text>
       <Text style={styles.focusTask}>{focusTask}</Text>
