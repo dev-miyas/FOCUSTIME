@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity,Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 
@@ -7,21 +7,27 @@ export default function FocusTime({ focusTask, onBack }) {
   const [selectTime, setSelectTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState();
   const [timeLeft, setTimeLeft] = useState(0);
-  const times = [600, 900, 1200];
+  const times = [6, 900, 1200];
   const timeFormatter = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   useEffect(() => {
-    if (!isRunning || selectedTime === null) return;
+  if (!isRunning || timeLeft === null) return;
 
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
+  if (timeLeft === 0) {
+    Alert.alert("Finished task");
+    setIsRunning(false);
+    return;
+  }
 
-    return () => clearInterval(interval);
-  }, [isRunning, selectedTime]);
+  const interval = setInterval(() => {
+    setTimeLeft((prev) => prev - 1);
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [isRunning, timeLeft]);
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.timeText}>{timeFormatter(timeLeft)}</Text>
