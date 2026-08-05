@@ -5,16 +5,26 @@ import { useState, useEffect } from "react";
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const [selectTime, setSelectTime] = useState(null);
-const [selectedTime,setSelectedTime]=useState();
+  const [selectedTime, setSelectedTime] = useState();
+  const [timeLeft, setTimeLeft] = useState(0);
   const times = [600, 900, 1200];
   const timeFormatter = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+  useEffect(() => {
+    if (!isRunning || selectedTime === null) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning, selectedTime]);
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.timeText}>{selectedTime ? timeFormatter(selectedTime) : "0:00"}</Text>
+      <Text style={styles.timeText}>{timeFormatter(timeLeft)}</Text>
       <Text style={styles.focusText}>Focusing on</Text>
       <Text style={styles.focusTask}>{focusTask}</Text>
 
@@ -23,25 +33,31 @@ const [selectedTime,setSelectedTime]=useState();
           height: 11,
           width: "100%",
           backgroundColor: "#241b9a",
-          marginTop: 20,        }}
+          marginTop: 20,
+        }}
       />
       <View style={styles.timeContainer}>
         {times.map((time, index) => (
           <TouchableOpacity
             key={index}
             style={styles.timeButton}
-            onPress={() => setSelectedTime(time)}
+            onPress={() => {
+              setSelectedTime(time);
+              setTimeLeft(time);
+            }}
           >
             <Text style={styles.timeButtonText}>{timeFormatter(time)}</Text>
           </TouchableOpacity>
         ))}
       </View>
+
       <TouchableOpacity
         style={styles.startFab}
         onPress={() => setIsRunning(!isRunning)}
       >
         <Text style={{ color: "#000" }}>{isRunning ? "Pause" : "Start"}</Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Text style={{ color: "#000" }}>Back</Text>
       </TouchableOpacity>
