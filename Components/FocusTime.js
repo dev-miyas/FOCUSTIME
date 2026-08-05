@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity,Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
-
+import Toast from "react-native-toast-message";
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const [selectTime, setSelectTime] = useState(null);
@@ -13,11 +13,17 @@ export default function FocusTime({ focusTask, onBack }) {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+  const showToast=()=>{
+    Toast.show({
+      type:"success",
+      text1:`you have successfully completed your ${focusTask}`
+    })
+  }
   useEffect(() => {
   if (!isRunning || timeLeft === null) return;
 
   if (timeLeft === 0) {
-    Alert.alert("Finished task");
+    showToast();
     setIsRunning(false);
     return;
   }
@@ -67,6 +73,7 @@ export default function FocusTime({ focusTask, onBack }) {
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Text style={{ color: "#000" }}>Back</Text>
       </TouchableOpacity>
+      <Toast />
     </SafeAreaView>
   );
 }
