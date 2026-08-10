@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  ScrollView,
+  ImageBackground,
+  Pressable
 } from "react-native";
 import { useState } from "react";
 
@@ -29,37 +32,56 @@ export default function App() {
     return <FocusTime focusTask={selectedTasks} onBack={changeScreen} />;
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <TextInput
-          placeholder="what would you like to focus on...."
-          mode={"outlined"}
-          value={task}
-          label="focus"
-          style={styles.InputText}
-          onChangeText={(text) => setTask(text)}
-        />
+  <SafeAreaView style={styles.container}>
+    <View>
+      <TextInput
+        placeholder="what would you like to focus on...."
+        mode={"outlined"}
+        value={task}
+        label="focus"
+        style={styles.InputText}
+        onChangeText={(text) => setTask(text)}
+      />
 
-        <TouchableOpacity
-          style={styles.fabButton}
-          onPress={() => {
-            addTask();
-            changeScreen();
-          }}
-        >
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.focusedTasks}>
-        <Text style={styles.focusedTitle}>THhings we have focused on</Text>
-        {tasks.map((task, index) => (
-          <Text key={index} style={styles.taskText}>
-            {task}
-          </Text>
-        ))}
-      </View>
-    </SafeAreaView>
-  );
+      <TouchableOpacity
+        style={styles.fabButton}
+        onPress={() => {
+          addTask();
+          changeScreen();
+        }}
+      >
+        <Text style={styles.fabText}>+</Text>
+      </TouchableOpacity>
+    </View>
+
+    <View style={styles.focusedTasks}>
+      <Text style={styles.focusedTitle}>
+        Things we have focused on
+      </Text>
+
+      <ImageBackground
+  source={require("./assets/Background.jpg")}
+  style={styles.background}
+  resizeMode="cover"
+>
+  <ScrollView contentContainerStyle={{ gap: 10 }}>
+    {tasks.map((task, index) => (
+      <Pressable
+        key={index}
+        onPress={() => {
+          changeScreen(task);
+        }}
+      >
+        <Text style={styles.taskText}>
+          {task}
+        </Text>
+      </Pressable>
+    ))}
+  </ScrollView>
+</ImageBackground>
+    </View>
+  </SafeAreaView>
+);
 }
 
 const styles = StyleSheet.create({
@@ -71,6 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "80%",
   },
+
   fabButton: {
     backgroundColor: "#241b9a",
     justifyContent: "center",
@@ -82,25 +105,38 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
   },
+
   fabText: {
     color: "#fff",
     fontSize: 30,
   },
+
   focusedTasks: {
     marginTop: 20,
     paddingHorizontal: 20,
   },
+
   focusedTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
   },
+
   taskText: {
     fontSize: 16,
-    marginBottom: 5,
+    margin: 7,
+    
   },
+
   container: {
     flex: 1,
     backgroundColor: "#dbd5e7",
   },
+
+  background: {
+  height: 600,
+  borderRadius: 20,
+  overflow: "hidden",
+  marginTop: 10,
+},
 });
