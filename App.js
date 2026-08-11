@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    width: "80%",
+    width: "81%",
   },
 
   fabButton: {
