@@ -4,7 +4,12 @@ import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
 import Ionicons from '@expo/vector-icons/Ionicons';
-export default function FocusTime({ focusTask, onBack }) {
+import { router,useLocalSearchParams} from 'expo-router';
+
+
+
+export default function FocusTime() {
+  const params=useLocalSearchParams();
   const [isRunning, setIsRunning] = useState(false);
   const [selectTime, setSelectTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState();
@@ -13,12 +18,14 @@ export default function FocusTime({ focusTask, onBack }) {
   const timeFormatter = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
+    
+    
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   const showToast=()=>{
     Toast.show({
       type:"success",
-      text1:`you have successfully completed your ${focusTask}`
+      text1:`you have successfully completed your ${params.focusTask}`
     })
   }
   useEffect(() => {
@@ -39,11 +46,11 @@ export default function FocusTime({ focusTask, onBack }) {
   return (
   <SafeAreaView style={styles.container}>
   <ImageBackground
-    source={require("../assets/Background.jpg")}
+    source={require("../../../assets/Background.jpg")}
     style={styles.background}
     resizeMode="cover"
   >
-    <TouchableOpacity style={styles.backButton} onPress={onBack}>
+    <TouchableOpacity style={styles.backButton} onPress={()=>router.back()}>
       <Ionicons name="chevron-back" size={24} color="black" />
       <Text style={{ color: "#000" }}>Back</Text>
     </TouchableOpacity>
@@ -59,7 +66,7 @@ export default function FocusTime({ focusTask, onBack }) {
     </Text>
 
     <Text style={styles.focusTask}>
-      {focusTask}
+      {params.focusTask}
     </Text>
 
     <View

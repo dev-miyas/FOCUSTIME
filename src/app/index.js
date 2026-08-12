@@ -1,4 +1,3 @@
-import FocusTime from "./Components/FocusTime";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   StyleSheet,
@@ -11,8 +10,9 @@ import {
   Pressable
 } from "react-native";
 import { useState } from "react";
+import { router } from 'expo-router';
 
-export default function App() {
+export default function Home() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState("");
@@ -26,11 +26,16 @@ export default function App() {
       setTasks([...tasks, trimmedTask]);
       setTask("");
       setSelectedTasks(trimmedTask);
+router.push({
+  pathname: "/screens/FocusTime",
+  params: {
+    focusTask: trimmedTask,
+  },
+});
     }
   };
-  if (switchScreen) {
-    return <FocusTime focusTask={selectedTasks} onBack={changeScreen} />;
-  }
+
+  
   return (
   <SafeAreaView style={styles.container}>
     <View>
@@ -60,7 +65,7 @@ export default function App() {
       </Text>
 
       <ImageBackground
-  source={require("./assets/Background.jpg")}
+  source={require("../../assets/Background.jpg")}
   style={styles.background}
   resizeMode="cover"
 >
