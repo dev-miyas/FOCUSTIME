@@ -27,7 +27,7 @@ export default function Home() {
       setTask("");
       setSelectedTasks(trimmedTask);
 router.push({
-  pathname: "/screens/FocusTime",
+  pathname: "/FocusTime",
   params: {
     focusTask: trimmedTask,
   },
@@ -65,7 +65,7 @@ router.push({
       </Text>
 
       <ImageBackground
-  source={require("../../assets/Background.jpg")}
+  source={require("../../../assets/Background.jpg")}
   style={styles.background}
   resizeMode="cover"
 >
