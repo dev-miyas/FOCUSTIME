@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
   },
 
   fabButton: {
-    backgroundColor: "#241b9a",
+    backgroundColor: "#17171e",
     justifyContent: "center",
     alignItems: "center",
-    width: 50,
-    height: 50,
+    width: 47,
+    height: 47,
     borderRadius: 25,
     position: "absolute",
     bottom: 10,

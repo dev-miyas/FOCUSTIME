@@ -44,8 +44,9 @@ export default function FocusTime() {
   return () => clearInterval(interval);
 }, [isRunning, timeLeft]);
   return (
-  <SafeAreaView style={styles.container}>
-  <ImageBackground
+      
+  <SafeAreaView style={styles.container}       edges={["top"]}>
+<ImageBackground
     source={require("../../../assets/Background.jpg")}
     style={styles.background}
     resizeMode="cover"
@@ -71,9 +72,9 @@ export default function FocusTime() {
 
     <View
       style={{
-        height: 11,
+        height: 5,
         width: "100%",
-        backgroundColor: "#241b9a",
+        backgroundColor: "#1d1d22",
         marginTop: 20,
       }}
     />
@@ -106,7 +107,7 @@ export default function FocusTime() {
 
     <Toast />
   </ImageBackground>
-</SafeAreaView>
+    </SafeAreaView>
   );
 }
 
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
   timeButtonText: {
     color: "#000",
     fontSize: 18,
+    fontWeight:500
   },
 
   startFab: {
