@@ -1,8 +1,10 @@
 import {Tabs} from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import TaskProvider from "../../contexts/taskContext";
 export default function TabsLayout(){
   return(
-            <Tabs
+     <TaskProvider>      
+    <Tabs
           screenOptions={{
             tabBarStyle: {
               backgroundColor: "#dbd5e7",
@@ -21,5 +23,6 @@ export default function TabsLayout(){
 tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} size={24} color="black" /> )                               }}/>
                                           
     </Tabs>
+     </TaskProvider>  
   )
 }

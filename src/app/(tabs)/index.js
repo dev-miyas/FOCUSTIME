@@ -11,30 +11,32 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { router } from 'expo-router';
-
+import { useTasks } from "../../contexts/taskContext";
 export default function Home() {
-  const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [selectedTasks, setSelectedTasks] = useState("");
+    const {
+  task,
+  setTask,
+  tasks,
+  setTasks,
+  selectedTask,
+  setSelectedTask,
+} = useTasks();
   const [switchScreen, setSwitchScreen] = useState(false);
   const changeScreen = () => {
     setSwitchScreen(!switchScreen);
   };
-  const addTask = () => {
-    const trimmedTask = task.trim();
-    if (trimmedTask.length > 0) {
-      setTasks([...tasks, trimmedTask]);
-      setTask("");
-      setSelectedTasks(trimmedTask);
-router.push({
-  pathname: "/FocusTime",
-  params: {
-    focusTask: trimmedTask,
-  },
-});
-    }
-  };
+const addTask = () => {
+  const trimmedTask = task.trim();
 
+  if (trimmedTask.length > 0) {
+    setTask("");
+    setSelectedTask(trimmedTask);
+
+    router.push({
+      pathname: "/FocusTime",
+    });
+  }
+};
   
   return (
   <SafeAreaView style={styles.container}>
@@ -74,8 +76,9 @@ router.push({
       <Pressable
         key={index}
         onPress={() => {
-          changeScreen(task);
-        }}
+  setSelectedTask(task);
+  router.push("/FocusTime");
+}}
       >
         <Text style={styles.taskText}>
           {task}

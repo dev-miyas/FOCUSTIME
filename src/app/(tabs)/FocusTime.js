@@ -5,34 +5,50 @@ import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router,useLocalSearchParams} from 'expo-router';
-
+import { useTasks } from "../../contexts/taskContext";
 
 
 export default function FocusTime() {
-  const params=useLocalSearchParams();
-  const [isRunning, setIsRunning] = useState(false);
-  const [selectTime, setSelectTime] = useState(null);
-  const [selectedTime, setSelectedTime] = useState();
-  const [timeLeft, setTimeLeft] = useState(0);
-  const times = [6, 900, 1200];
-  const timeFormatter = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    
-    
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-  const showToast=()=>{
-    Toast.show({
-      type:"success",
-      text1:`you have successfully completed your ${params.focusTask}`
-    })
-  }
-  useEffect(() => {
+
+  const {
+  selectedTask,
+  setSelectedTask,
+  setTasks,
+} = useTasks();
+
+const focusTask = selectedTask;
+
+const [isRunning, setIsRunning] = useState(false);
+const [selectTime, setSelectTime] = useState(null);
+const [selectedTime, setSelectedTime] = useState();
+const [timeLeft, setTimeLeft] = useState(0);
+
+const times = [6, 900, 1200];
+
+const timeFormatter = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
+const showToast = () => {
+  Toast.show({
+    type: "success",
+    text1: `you have successfully completed your ${focusTask}`,
+  });
+};
+
+useEffect(() => {
   if (!isRunning || timeLeft === null) return;
 
   if (timeLeft === 0) {
     showToast();
+
+    if (selectedTask) {
+      setTasks((prevTasks) => [...prevTasks, selectedTask]);
+    }
+
     setIsRunning(false);
     return;
   }
@@ -51,7 +67,8 @@ export default function FocusTime() {
     style={styles.background}
     resizeMode="cover"
   >
-    <TouchableOpacity style={styles.backButton} onPress={()=>router.back()}>
+    <TouchableOpacity style={styles.backButton} onPress={()=>{router.back()
+                                                    setSelectedTask(null)}}>
       <Ionicons name="chevron-back" size={24} color="black" />
       <Text style={{ color: "#000" }}>Back</Text>
     </TouchableOpacity>
@@ -67,7 +84,7 @@ export default function FocusTime() {
     </Text>
 
     <Text style={styles.focusTask}>
-      {params.focusTask}
+      {focusTask}
     </Text>
 
     <View
@@ -167,7 +184,7 @@ const styles = StyleSheet.create({
   timeButtonText: {
     color: "#000",
     fontSize: 18,
-    fontWeight:500
+    fontWeight:"500"
   },
 
   startFab: {
