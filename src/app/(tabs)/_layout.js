@@ -1,28 +1,43 @@
 import {Tabs} from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import TaskProvider from "../../contexts/taskContext";
+import ColorProvider from "../../contexts/colorContext";
+import { StatusBar } from "expo-status-bar";
+import { useColor } from "../../contexts/colorContext";
 export default function TabsLayout(){
-  return(
-     <TaskProvider>      
-    <Tabs
+
+
+  const TabLayout =()=>{
+    const { colors, statusBarStyle } = useColor();
+    return(
+      <>
+      <StatusBar style={statusBarStyle} />
+     <Tabs
           screenOptions={{
             tabBarStyle: {
-              backgroundColor: "#dbd5e7",
-              setOffset: 0,
+              backgroundColor: colors.surface,
               borderTopWidth: 1,
-  borderTopColor: "#8a82a3c7"
+  borderTopColor: colors.outline
             },
-            tabBarActiveTintColor: "black",
-            tabBarInactiveTintColor: "#8a82a3",
+            tabBarActiveTintColor: colors.primary,
+            tabBarInactiveTintColor: colors.textSecondary,
           }}
         >
-    <Tabs.Screen name="index" options={{headerShown:false,                                     tabBarIcon:({focused})=>
-      (<Ionicons name={focused ? "home" : "home-outline"} size={24} color="black" />)
+    <Tabs.Screen name="index" options={{headerShown:false,tabBarIcon:({focused})=>
+      (<Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} />)
                                        }}/>
       <Tabs.Screen name="FocusTime" options={{headerShown:false,
-tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} size={24} color="black" /> )                               }}/>
+tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} /> )}}/>
                                           
     </Tabs>
+</>
+    )}
+ 
+  return(
+    <ColorProvider>
+     <TaskProvider>      
+    <TabLayout />
      </TaskProvider>  
+    </ColorProvider>
   )
-}
+  }

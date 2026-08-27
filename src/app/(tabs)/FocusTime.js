@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router,useLocalSearchParams} from 'expo-router';
 import { useTasks } from "../../contexts/taskContext";
+import { useColor } from "../../contexts/colorContext";
 
 
 export default function FocusTime() {
@@ -15,6 +16,9 @@ export default function FocusTime() {
   setSelectedTask,
   setTasks,
 } = useTasks();
+
+  const { colors, statusBarStyle } = useColor();
+  const styles = getStyles(colors);
 
 const focusTask = selectedTask;
 
@@ -62,18 +66,18 @@ useEffect(() => {
   return (
       
   <SafeAreaView style={styles.container}       edges={["top"]}>
-<ImageBackground
+{/* <ImageBackground
     source={require("../../../assets/Background.jpg")}
     style={styles.background}
     resizeMode="cover"
-  >
+  > */}
     <TouchableOpacity style={styles.backButton} onPress={()=>{router.back()
                                                     setSelectedTask(null)}}>
-      <Ionicons name="chevron-back" size={24} color="black" />
-      <Text style={{ color: "#000" }}>Back</Text>
+      <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
+      <Text style={{ color: colors.textPrimary }}>Back</Text>
     </TouchableOpacity>
 
-    <StatusBar style="dark" />
+    <StatusBar style={statusBarStyle} />
 
     <Text style={styles.timeText}>
       {timeFormatter(timeLeft)}
@@ -91,7 +95,7 @@ useEffect(() => {
       style={{
         height: 5,
         width: "100%",
-        backgroundColor: "#1d1d22",
+        backgroundColor: colors.secondaryContainer,
         marginTop: 20,
       }}
     />
@@ -117,23 +121,23 @@ useEffect(() => {
       style={styles.startFab}
       onPress={() => setIsRunning(!isRunning)}
     >
-      <Text style={{ color: "#000" }}>
+      <Text style={{ color: colors.textPrimary }}>
         {isRunning ? "Pause" : "Start"}
       </Text>
     </TouchableOpacity>
 
     <Toast />
-  </ImageBackground>
+  {/* </ImageBackground> */}
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#dbd5e7",
+    backgroundColor: colors.background,
   },
 
   background: {
@@ -144,20 +148,20 @@ const styles = StyleSheet.create({
 
   timeText: {
     fontSize: 30,
-    color: "#000",
+    color: colors.textPrimary,
     marginTop: 50,
     fontWeight: "bold",
   },
 
   focusText: {
     fontSize: 20,
-    color: "#000",
+    color: colors.textPrimary,
     marginTop: 20,
   },
 
   focusTask: {
     fontSize: 25,
-    color: "#000",
+    color: colors.textPrimary,
     marginTop: 20,
     fontWeight: "bold",
   },
@@ -178,11 +182,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: "#fff",
+    borderColor: colors.outline,
   },
 
   timeButtonText: {
-    color: "#000",
+    color: colors.textPrimary,
     fontSize: 18,
     fontWeight:"500"
   },
@@ -195,7 +199,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#fff",
+    borderColor: colors.outline,
     marginTop: 50,
   },
 
