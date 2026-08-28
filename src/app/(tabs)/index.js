@@ -14,6 +14,7 @@ import { router } from 'expo-router';
 import { useTasks } from "../../contexts/taskContext";
 import { useColor } from "../../contexts/colorContext";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Toast from "react-native-toast-message";
 export default function Home() {
     const {
   task,
@@ -26,7 +27,7 @@ export default function Home() {
   // const [switchScreen, setSwitchScreen] = useState(false);
   const { colors, statusBarStyle, isDark, toggleTheme } = useColor();
   const styles = getStyles(colors);
-
+  const[inputError, setInputError] = useState(false);
 
 
   // const changeScreen = () => {
@@ -36,13 +37,22 @@ const addTask = () => {
   const trimmedTask = task.trim();
 
   if (trimmedTask.length > 0) {
+    setInputError(false);
     setTask("");
     setSelectedTask(trimmedTask);
 
     router.push({
       pathname: "/FocusTime",
     });
+  } else {
+    showToast();
   }
+};
+const showToast = () => {
+  Toast.show({
+    type: "error",
+    text1: "Please enter a task to focus on.",
+  });
 };
   
   return (
@@ -76,6 +86,7 @@ const addTask = () => {
         style={styles.fabButton}
         onPress={() => {
           addTask();
+
           // changeScreen();
         }}
       >

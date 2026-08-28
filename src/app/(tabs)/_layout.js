@@ -4,6 +4,7 @@ import TaskProvider from "../../contexts/taskContext";
 import ColorProvider from "../../contexts/colorContext";
 import { StatusBar } from "expo-status-bar";
 import { useColor } from "../../contexts/colorContext";
+import Toast from "react-native-toast-message";
 export default function TabsLayout(){
 
 
@@ -38,6 +39,8 @@ tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} s
      <TaskProvider>      
     <TabLayout />
      </TaskProvider>  
+       <Toast />
     </ColorProvider>
+    
   )
   }
