@@ -24,7 +24,7 @@ export default function Home() {
   setSelectedTask,
 } = useTasks();
   // const [switchScreen, setSwitchScreen] = useState(false);
-  const { colors, statusBarStyle } = useColor();
+  const { colors, statusBarStyle, isDark, toggleTheme } = useColor();
   const styles = getStyles(colors);
 
 
@@ -47,6 +47,20 @@ const addTask = () => {
   
   return (
   <SafeAreaView style={styles.container}>
+    <View style={styles.header}>
+      <Text style={styles.headerTitle}>Focus</Text>
+      <TouchableOpacity
+        style={styles.themeToggle}
+        onPress={toggleTheme}
+      >
+        <Ionicons
+          name={isDark ? "sunny" : "moon"}
+          size={20}
+          color={colors.textPrimary}
+        />
+      </TouchableOpacity>
+    </View>
+
     <View>
       <TextInput
         placeholder="what would you like to focus on...."
@@ -107,6 +121,31 @@ const addTask = () => {
 }
 
 const getStyles = (colors) => StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: colors.textPrimary,
+  },
+
+  themeToggle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.surface,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.outline,
+  },
+
   InputText: {
     borderWidth: 1,
     borderColor: colors.outline,

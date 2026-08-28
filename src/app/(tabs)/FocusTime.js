@@ -96,7 +96,7 @@ useEffect(() => {
         height: 5,
         width: "100%",
         backgroundColor: colors.secondaryContainer,
-        marginTop: 20,
+        marginTop: 70,
       }}
     />
 
@@ -147,7 +147,7 @@ const getStyles = (colors) => StyleSheet.create({
   },
 
   timeText: {
-    fontSize: 30,
+    fontSize: 40,
     color: colors.textPrimary,
     marginTop: 50,
     fontWeight: "bold",
@@ -187,7 +187,7 @@ const getStyles = (colors) => StyleSheet.create({
 
   timeButtonText: {
     color: colors.textPrimary,
-    fontSize: 18,
+    fontSize: 25,
     fontWeight:"500"
   },
 
