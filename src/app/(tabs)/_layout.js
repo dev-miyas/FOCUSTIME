@@ -4,9 +4,12 @@ import TaskProvider from "../../contexts/taskContext";
 import ColorProvider from "../../contexts/colorContext";
 import { StatusBar } from "expo-status-bar";
 import { useColor } from "../../contexts/colorContext";
-import Toast from "react-native-toast-message";
+// import Toast from "react-native-toast-message";
+import OnBoarding from "../../components/onBoarding";
+import Onboarding from 'react-native-onboarding-swiper';
+import { useState } from "react";
 export default function TabsLayout(){
-
+const [showOnboarding, setShowOnboarding] = useState(true);
 
   const TabLayout =()=>{
     const { colors, statusBarStyle } = useColor();
@@ -33,14 +36,25 @@ tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} s
     </Tabs>
 </>
     )}
+
+    if(showOnboarding===true){
+      return(
+        <OnBoarding />
+      )
+    }
  
+  
+else{
   return(
+ 
     <ColorProvider>
      <TaskProvider>      
     <TabLayout />
      </TaskProvider>  
-       <Toast />
+       {/* <Toast /> */}
     </ColorProvider>
     
-  )
-  }
+  );
+}
+}
+
