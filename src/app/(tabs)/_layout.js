@@ -7,9 +7,26 @@ import { useColor } from "../../contexts/colorContext";
 // import Toast from "react-native-toast-message";
 import OnBoarding from "../../components/onBoarding";
 import Onboarding from 'react-native-onboarding-swiper';
-import { useState } from "react";
+import { useState,useEffect} from "react";
+import { getItems, setItems } from "../../utils/storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function TabsLayout(){
 const [showOnboarding, setShowOnboarding] = useState(true);
+
+const checkOnboardingStatus = async () => {
+  try {
+    const onboardingCompleted = await getItems("onboardingCompleted");
+    setShowOnboarding(onboardingCompleted !== "true");
+  } catch (error) {
+    console.error("Error checking onboarding status:", error);
+  } 
+};
+
+useEffect(() => {
+  checkOnboardingStatus();
+}, []);
+
 
   const TabLayout =()=>{
     const { colors, statusBarStyle } = useColor();
@@ -37,7 +54,7 @@ tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} s
 </>
     )}
 
-    if(showOnboarding===true){
+    if(showOnboarding){
       return(
         <OnBoarding />
       )
