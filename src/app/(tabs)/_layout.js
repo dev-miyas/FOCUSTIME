@@ -1,77 +1,76 @@
-import {Tabs} from "expo-router";
+import { Tabs } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import TaskProvider from "../../contexts/taskContext";
-import ColorProvider from "../../contexts/colorContext";
+import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { useColor } from "../../contexts/colorContext";
-// import Toast from "react-native-toast-message";
+import TaskProvider from "../../contexts/taskContext";
+import ColorProvider, { useColor } from "../../contexts/colorContext";
+import { getItems, removeItems } from "../../utils/storage";
 import OnBoarding from "../../components/onBoarding";
-import Onboarding from 'react-native-onboarding-swiper';
-import { useState,useEffect} from "react";
-import { getItems, setItems } from "../../utils/storage";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function TabsLayout(){
-const [showOnboarding, setShowOnboarding] = useState(true);
+export default function TabsLayout() {
+  const [showOnboarding, setShowOnboarding] = useState(null);
 
-const checkOnboardingStatus = async () => {
-  try {
-    const onboardingCompleted = await getItems("onboardingCompleted");
-    setShowOnboarding(onboardingCompleted !== "true");
-  } catch (error) {
-    console.error("Error checking onboarding status:", error);
-  } 
-};
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        // await removeItems("onboardingCompleted");
 
-useEffect(() => {
-  checkOnboardingStatus();
-}, []);
+        const value = await getItems("onboardingCompleted");
+        setShowOnboarding(value !== true);
+      } catch (error) {
+        console.error("Error checking onboarding status:", error);
+      }
+    };
+    checkOnboardingStatus();
+  }, []);
 
-
-  const TabLayout =()=>{
+  const TabLayout = () => {
     const { colors, statusBarStyle } = useColor();
-    return(
+    return (
       <>
-      <StatusBar style={statusBarStyle} />
-     <Tabs
+        <StatusBar style={statusBarStyle} />
+        <Tabs
           screenOptions={{
             tabBarStyle: {
               backgroundColor: colors.surface,
               borderTopWidth: 1,
-  borderTopColor: colors.outline
+              borderTopColor: colors.outline,
             },
             tabBarActiveTintColor: colors.primary,
             tabBarInactiveTintColor: colors.textSecondary,
           }}
         >
-    <Tabs.Screen name="index" options={{headerShown:false,tabBarIcon:({focused})=>
-      (<Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} />)
-                                       }}/>
-      <Tabs.Screen name="FocusTime" options={{headerShown:false,
-tabBarIcon:({focused})=>( <Ionicons name= {focused? "timer" : "timer-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} /> )}}/>
-                                          
-    </Tabs>
-</>
-    )}
+          <Tabs.Screen
+            name="index"
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused }) => (
+                <Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="FocusTime"
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused }) => (
+                <Ionicons name={focused ? "timer" : "timer-outline"} size={24} color={focused ? colors.primary : colors.textSecondary} />
+              ),
+            }}
+          />
+        </Tabs>
+      </>
+    );
+  };
 
-    if(showOnboarding){
-      return(
-        <OnBoarding />
-      )
-    }
- 
-  
-else{
-  return(
- 
+  if (showOnboarding === null) return null;
+  if (showOnboarding) return <OnBoarding onDone={() => setShowOnboarding(false)} />;
+
+  return (
     <ColorProvider>
-     <TaskProvider>      
-    <TabLayout />
-     </TaskProvider>  
-       {/* <Toast /> */}
+      <TaskProvider>
+        <TabLayout />
+      </TaskProvider>
     </ColorProvider>
-    
   );
 }
-}
-
