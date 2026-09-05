@@ -71,10 +71,11 @@ useEffect(() => {
     style={styles.background}
     resizeMode="cover"
   > */}
+    
     <TouchableOpacity style={styles.backButton} onPress={()=>{router.back()
                                                     setSelectedTask(null)}}>
-      <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
-      <Text style={{ color: colors.textPrimary }}>Back</Text>
+      <Ionicons style={styles.backIcon} name="chevron-back" size={24} color={colors.textPrimary} backgroundColor={colors.surface} />
+      <Text style={{ color: colors.textPrimary }}>Focus Session</Text>
     </TouchableOpacity>
 
     <StatusBar style={statusBarStyle} />
@@ -134,7 +135,7 @@ useEffect(() => {
 
 const getStyles = (colors) => StyleSheet.create({
   container: {
-    flex: 1,
+   flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.background,
@@ -202,12 +203,32 @@ const getStyles = (colors) => StyleSheet.create({
     borderColor: colors.outline,
     marginTop: 50,
   },
+  backIcon:{
+        height: 30,
+    width: 30,
+    borderRadius: 15,
+  },
+  /*
+  header: {
+  width: "100%",
+  paddingHorizontal: 20,
+  paddingTop: 10,
+},*/
+backButton: {
+  position: "absolute",
+  top: 10,   
+  left: 20,
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 6,
+      
+},
 
-  backButton: {
+/*  backButton: {
     position: "absolute",
     top: 40,
     left: 25,
     flexDirection: "row",
     alignItems: "center",
-  },
+  },*/
 });
