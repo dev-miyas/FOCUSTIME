@@ -12,12 +12,21 @@ function DrawerContent() {
   return (
     <>
       
-      <Drawer    
-        screenOptions={{
-          drawerStyle: { backgroundColor: colors.background },
-          headerStyle: { backgroundColor: colors.background, elevation: 0 , borderwidth: 0 },
-          headerTintColor: colors.textPrimary,
-        }}>
+      <Drawer
+  screenOptions={{
+    drawerStyle: {
+      backgroundColor: colors.background,
+    },
+
+    headerStyle: {
+      backgroundColor: colors.background,
+    },
+
+    headerShadowVisible: false,
+
+    headerTintColor: colors.textPrimary,
+  }}
+>
         <Drawer.Screen
           name="(tabs)"
           options={{

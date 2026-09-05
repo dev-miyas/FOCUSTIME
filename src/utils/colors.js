@@ -3,7 +3,7 @@ export const lightStatusBar = 'light';
 
 export const darkTheme = {
   background: '#1E293B',
-  surface: '#0F172A',
+  surface: '#1A2332',
 
   primary: '#0077CC',
   onPrimary: '#FFFFFF',
